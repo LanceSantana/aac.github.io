@@ -95,10 +95,27 @@
   @media (max-width: 900px){ .panel{ grid-template-columns: 1fr; } }
 
   .frame{ background:#24301f20; border-radius:14px; padding:10px; box-shadow: 0 2px 0 rgba(0,0,0,.12); }
-  .frame{ transition: background .32s ease, color .24s ease; }
+  .frame{ transition: background .32s ease, color .24s ease; position:relative; }
   .screen{
     width:100%; aspect-ratio:16 / 9; border-radius:12px; object-fit:cover; display:block; background:#ddd;
     box-shadow: 0 2px 0 rgba(0,0,0,.18);
+  }
+
+  /* overlay to show large text where the video/screen is */
+  .screen-overlay{
+    position:absolute;
+    left:10px; right:10px; top:10px; bottom:10px;
+    display:none; /* toggled by JS */
+    align-items:center; justify-content:center;
+    text-align:center;
+    font-weight:800;
+    font-size:clamp(28px,6vw,64px);
+    line-height:1;
+    pointer-events:none; /* let clicks pass through to controls if needed */
+    color:inherit; /* will be tuned by JS via color from tabs */
+    text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
   }
 
   /* GRID OF BUTTONS */
@@ -197,6 +214,7 @@
   <section class="container panel" aria-label="Avatar and quick phrases">
     <div class="frame">
       <video class="screen" src="your-video.mp4" poster="poster.jpg" controls></video>
+      <div class="screen-overlay" aria-hidden="true"></div>
       <!-- Or: <img class="screen" src="your-image.jpg" alt="Avatar"> -->
     </div>
 
@@ -249,6 +267,19 @@
       const synth = window.speechSynthesis;
       const status = document.getElementById('speech-status');
 
+      // overlay element that sits over the video/screen to show large text
+      let overlay = document.querySelector('.screen-overlay');
+      let overlayTimeout = null;
+      if(!overlay){
+        const frameEl = document.querySelector('.frame');
+        if(frameEl){
+          overlay = document.createElement('div');
+          overlay.className = 'screen-overlay';
+          overlay.setAttribute('aria-hidden','true');
+          frameEl.appendChild(overlay);
+        }
+      }
+
       function speak(text){
         if(!synth){
           // Fallback: update live region so assistive tech knows something happened
@@ -278,6 +309,16 @@
           // small visual pressed feedback for keyboard users
           k.setAttribute('aria-pressed', 'true');
           setTimeout(()=> k.removeAttribute('aria-pressed'), 240);
+          // show the clicked label in the screen overlay (visible where video is)
+          try{
+            if(overlay){
+              overlay.textContent = text;
+              overlay.style.display = 'flex';
+              // clear any previous hide timer
+              if(overlayTimeout) clearTimeout(overlayTimeout);
+              overlayTimeout = setTimeout(()=>{ if(overlay) overlay.style.display = 'none'; overlayTimeout = null; }, 2500);
+            }
+          }catch(e){ /* ignore overlay failures */ }
           // only play audio for the allowed words (case-insensitive)
           if(speakKeys.has(text.toLowerCase())){
             speak(text);
@@ -345,6 +386,8 @@
           if(frame && rgb && rgb.length===3){
             frame.style.background = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.10)`;
             frame.style.color = textColor;
+            // also apply the same readable color to the overlay text
+            try{ if(overlay) overlay.style.color = textColor; }catch(e){}
           }
         }catch(e){}
 
@@ -373,7 +416,6 @@
 
     })();
   </script>
-</script>
 
 <div class="arc-bg" aria-hidden="true"></div>
 
