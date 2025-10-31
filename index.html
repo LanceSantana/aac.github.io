@@ -234,7 +234,8 @@ grid-auto-rows: 120px;
   <!-- GREEN PANEL -->
   <section class="container panel" aria-label="Avatar and quick phrases">
     <div class="frame">
-      <video class="screen" src="your-video.mp4" poster="poster.jpg" controls></video>
+      <!-- re add the "src="your-video.mp4" part-->
+      <video class="screen" id="screen-box" poster="poster.jpg" controls></video>
       <!-- Or: <img class="screen" src="your-image.jpg" alt="Avatar"> -->
     </div>
 
@@ -459,10 +460,22 @@ function addToSentence(word) {
 }
 
 // --- Speak full sentence ---
-speakSentenceBtn.addEventListener('click', () => {
+/*speakSentenceBtn.addEventListener('click', () => {
   const text = sentenceField.textContent.trim();
   if (!text) return;
   speak(text);
+  queryGemini(text); 
+}); */
+speakSentenceBtn.addEventListener('click', async () => {
+  const text = sentenceField.textContent.trim();
+  if (!text) return;
+
+  // Send to Gemini and speak
+  speak(text);
+  await queryGemini(text);
+
+  // Automatically clear after speaking
+  sentenceField.textContent = "";
 });
 
 // --- Clear sentence ---
@@ -480,6 +493,226 @@ selectTab = function(tab){
   const name = (tab.textContent||tab.innerText||'').trim();
   populateKeys(name);
 };
+//new?
+
+/* async function queryGemini(sentence) {
+  try {
+    const res = await fetch("http://127.0.0.1:5000/api/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: sentence }),
+    });
+    const data = await res.json();
+
+    // Display Gemini's reply inside the video box
+    const screen = document.querySelector(".screen");
+    if (screen) {
+      screen.innerHTML = `<div style="padding:15px; color:white; font-size:18px;">
+        ${data.reply}
+      </div>`;
+    }
+  } catch (err) {
+    console.error("Gemini error:", err);
+  }
+}
+*/
+//newer
+/*
+async function queryGemini(sentence) {
+  const res = await fetch("http://127.0.0.1:5000/api/gemini", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: sentence }),
+  });
+  const data = await res.json();
+
+  // Replace the video content with Gemini’s text
+  const screen = document.getElementById("screen-box");
+  screen.outerHTML = `
+    <div id="screen-box" class="screen" style="
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      color: white;
+      padding: 20px;
+      font-size: 18px;
+      text-align: center;
+    ">
+      ${data.reply}
+    </div>`;
+}
+*/
+//newest
+/*
+async function queryGemini(sentence) {
+  const res = await fetch("http://127.0.0.1:5000/api/gemini", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: sentence }),
+  });
+  const data = await res.json();
+
+  // hide the video and show text instead
+  const screen = document.getElementById("screen-box");
+  screen.style.display = "none";
+
+  // create a new text overlay div
+  let textBox = document.getElementById("gemini-output");
+  if (!textBox) {
+    textBox = document.createElement("div");
+    textBox.id = "gemini-output";
+    screen.parentElement.appendChild(textBox);
+  }
+
+  textBox.innerHTML = data.reply;
+  textBox.style.cssText = `
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 18px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  `;
+}
+*/
+/*
+async function queryGemini(sentence) {
+  try {
+    const res = await fetch("http://127.0.0.1:5000/api/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: sentence }),
+    });
+
+    const data = await res.json();
+    const reply = data.reply || "No response from Gemini.";
+
+    // --- Print response in console ---
+    console.log("Gemini reply:", reply);
+    //newer additions
+    window.speechSynthesis.cancel(); // stop any previous voice
+const utterance = new SpeechSynthesisUtterance(reply);
+utterance.lang = "en-US";
+utterance.rate = 1;
+utterance.pitch = 1;
+utterance.onstart = () => console.log("Speaking...");
+utterance.onend = () => console.log("Done speaking.");
+speechSynthesis.speak(utterance);
+
+    // --- Display it inside the video/text box ---
+    const screen = document.getElementById("screen-box");
+    screen.style.display = "none"; // hide video
+
+    let textBox = document.getElementById("gemini-output");
+    if (!textBox) {
+      textBox = document.createElement("div");
+      textBox.id = "gemini-output";
+      screen.parentElement.appendChild(textBox);
+    }
+
+    textBox.innerHTML = reply;
+    textBox.style.cssText = `
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border-radius: 12px;
+      padding: 20px;
+      font-size: 18px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    `;
+
+    // --- Speak the Gemini reply aloud ---
+    const synth = window.speechSynthesis;
+    if (synth) {
+      const utterance = new SpeechSynthesisUtterance(reply);
+      utterance.lang = "en-US";
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      synth.cancel();  // stop any prior speech
+      synth.speak(utterance);
+    }
+
+  } catch (error) {
+    console.error("Gemini API error:", error);
+  }
+}
+*/
+async function queryGemini(sentence) {
+  try {
+    const res = await fetch("http://127.0.0.1:5000/api/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: sentence }),
+    });
+
+    const data = await res.json();
+    const reply = data.reply || "No response from Gemini.";
+
+    console.log("Gemini reply:", reply);
+
+    // Speak the Gemini reply aloud
+    const synth = window.speechSynthesis;
+    if (synth) {
+      const utter = new SpeechSynthesisUtterance(reply);
+      utter.lang = "en-US";
+      utter.rate = 1;
+      synth.cancel();
+      synth.speak(utter);
+    }
+
+    // --- Display Gemini output *only inside* the video area ---
+    const frame = document.querySelector(".frame");
+    const screen = document.getElementById("screen-box");
+
+    // Hide the video but keep the frame size fixed
+    screen.style.display = "none";
+
+    // Create or update a text box confined to the frame
+    let textBox = document.getElementById("gemini-output");
+    if (!textBox) {
+      textBox = document.createElement("div");
+      textBox.id = "gemini-output";
+      frame.appendChild(textBox);
+    }
+
+    textBox.innerHTML = reply;
+    textBox.style.cssText = `
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: rgba(0,0,0,0.7);
+      color: white;
+      font-size: 18px;
+      padding: 20px;
+      border-radius: 12px;
+      position: relative;   /* stays within frame */
+      overflow-y: auto;
+    `;
+
+  } catch (error) {
+    console.error("Gemini API error:", error);
+  }
+}
 
 
     })();
