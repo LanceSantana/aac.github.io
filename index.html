@@ -55,7 +55,7 @@
   }
   @media (max-width: 900px){ .panel{ grid-template-columns: 1fr; } }
 
-  .frame{ background:#24301f20; border-radius:14px; padding:12px; box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+  .frame{ background:#24301f20; border-radius:14px; padding:12px; box-shadow: 0 2px 0 rgba(0,0,0,.12); height: fit-content; }
   .frame{ transition: background .32s ease, color .24s ease; }
   .screen{
     width:100%; aspect-ratio:16 / 9; border-radius:12px; object-fit:cover; display:block; background:#ddd;
@@ -137,7 +137,10 @@
 
   <!-- NAV -->
   <header class="container nav">
-    <a class="brand" href="#">AAC Avatar</a>
+    <a class="brand" href="#" style="display: flex; align-items: center; gap: 8px;">
+      <img src="voice_bloom.png" alt="Voice Bloom" style="height: 60px; width: auto;" />
+      Voice Bloom
+    </a>
     <nav class="navlinks" aria-label="Primary">
       <a href="#">Home</a>
       <a href="#">How–to</a>
@@ -158,41 +161,47 @@
 
   <!-- GREEN PANEL -->
   <section class="container panel" aria-label="Avatar and quick phrases">
-    <div class="frame">
-      <!-- re add the "src="your-video.mp4" part-->
-      <video class="screen" id="screen-box" poster="poster.jpg" controls></video>
-      <!-- Or: <img class="screen" src="your-image.jpg" alt="Avatar"> -->
+    <!-- Left column: video + sentence area -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="frame">
+        <!-- re add the "src="your-video.mp4" part-->
+        <video class="screen" id="screen-box" poster="poster.jpg" controls></video>
+        <!-- Or: <img class="screen" src="your-image.jpg" alt="Avatar"> -->
+      </div>
+
+      <div class="sentence-area">
+        <div id="sentence-field" 
+             style="background:#fff;border:2px solid #ccc;border-radius:8px;padding:10px;
+                    min-height:40px;font-size:16px;">
+        </div>
+        <!-- Type area: user-typed message -->
+        <div style="margin-top:8px; display:flex; gap:8px; align-items:center;">
+          <label for="type-input" class="visually-hidden">Type message</label>
+          <input id="type-input" type="text" placeholder="Type message..." style="flex:1; padding:8px 10px; border-radius:6px; border:1px solid #ccc;" />
+          <button id="add-speak" type="button" style="background:#7f8f73;color:white;border:none;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;">Add & Speak</button>
+        </div>
+
+        <div style="margin-top:10px;display:flex;gap:10px;">
+          <button id="speak-sentence" 
+                  style="background:#7f8f73;color:white;border:none;padding:10px 16px;
+                         border-radius:8px;font-weight:600;cursor:pointer;">Speak Sentence</button>
+          <button id="clear-sentence" 
+                  style="background:#ccc;color:#000;border:none;padding:10px 16px;
+                         border-radius:8px;font-weight:600;cursor:pointer;">Clear</button>
+        </div>
+      </div>
     </div>
 
-    <div id="keys-container" class="keys"></div>
+    <!-- Right column: buttons + finder -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div id="keys-container" class="keys"></div>
 
-<div class="sentence-area" style="margin-top:14px;">
-  <div id="sentence-field" 
-       style="background:#fff;border:2px solid #ccc;border-radius:8px;padding:10px;
-              min-height:40px;font-size:16px;">
-  </div>
-  <!-- Type area: user-typed message -->
-  <div style="margin-top:8px; display:flex; gap:8px; align-items:center;">
-    <label for="type-input" class="visually-hidden">Type message</label>
-    <input id="type-input" type="text" placeholder="Type message..." style="flex:1; padding:8px 10px; border-radius:6px; border:1px solid #ccc;" />
-    <button id="add-speak" type="button" style="background:#7f8f73;color:white;border:none;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;">Add & Speak</button>
-  </div>
-
-  <div style="margin-top:10px;display:flex;gap:10px;">
-    <button id="speak-sentence" 
-            style="background:#7f8f73;color:white;border:none;padding:10px 16px;
-                   border-radius:8px;font-weight:600;cursor:pointer;">Speak Sentence</button>
-    <button id="clear-sentence" 
-            style="background:#ccc;color:#000;border:none;padding:10px 16px;
-                   border-radius:8px;font-weight:600;cursor:pointer;">Clear</button>
-  </div>
-</div>
-
-    <!-- Finder: search across all vocabulary -->
-    <div class="finder" style="margin:12px 0 8px; display:flex; gap:8px; align-items:center;">
-      <label for="finder-input" style="font-weight:600; font-size:13px;">Finder</label>
-      <input id="finder-input" type="text" placeholder="Search words..." style="flex:1; padding:8px 10px; border-radius:6px; border:1px solid #ccc;" />
-      <button id="finder-search" type="button" style="background:#7f8f73;color:white;border:none;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;">Search</button>
+      <!-- Finder: search across all vocabulary -->
+      <div class="finder" style="margin:0; display:flex; gap:8px; align-items:center;">
+        <label for="finder-input" style="font-weight:600; font-size:13px;">Finder</label>
+        <input id="finder-input" type="text" placeholder="Search words..." style="flex:1; padding:8px 10px; border-radius:6px; border:1px solid #ccc;" />
+        <button id="finder-search" type="button" style="background:#7f8f73;color:white;border:none;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;">Search</button>
+      </div>
     </div>
 
   </section>
