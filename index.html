@@ -41,115 +41,60 @@
   .hero{ text-align:center; margin:18px 0 30px; }
   .hero h1{ font-weight:500; font-size:clamp(26px,4.2vw,36px); margin:10px 0 0; }
 
-  /* TABS: half-pill tabs plugged into a long rounded bar */
-  .tabs{ position:relative; padding:12px 6px 0; }
-  .tabs-list{ display:flex; gap:10px; align-items:flex-start; position:relative; z-index:1; }
 
-  /* Individual tab buttons: top-only rounded (half-pill look) */
-  .tab{
-    --tab-height:36px; /* reduced height */
-    height:var(--tab-height);
-    padding:6px 12px;
-    border:0;
-    border-radius:12px 12px 0 0; /* only top corners rounded */
-    font-weight:700;
-    font-size:13px; /* slightly smaller font */
-    color:#ffffff; /* white labels */
-    cursor:pointer;
-    user-select:none;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 1px 0 rgba(0,0,0,.06);
-    transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
-    position:relative; z-index:0; white-space:nowrap;
-  }
-  .tab.sage   { background:var(--tab-green, var(--sage)); }
-  .tab.teal   { background:var(--tab-teal); }
-  .tab.blue   { background:var(--tab-blue); }
-  .tab.purple { background:var(--tab-purple); }
-  .tab.rose   { background:var(--tab-rose); }
-
-  /* Hover: slightly darker + small lift (visual depth) */
-  .tab:hover, .tab:focus-visible{
-    filter:brightness(.94);
-    transform:translateY(-3px);
-    box-shadow:0 8px 16px rgba(19,29,15,.10);
-    z-index:3; /* ensure hovered tab sits above the bar */
-  }
-  .tab:active{ transform:translateY(-1px); filter:brightness(.9); box-shadow:0 4px 10px rgba(10,18,8,.12); }
-  .tab:focus{ outline:3px solid rgba(0,0,0,.08); outline-offset:4px; }
-
-  @media (max-width:420px){ .tabs-list{ flex-wrap:wrap; gap:8px; } .tab{ height:34px; padding:6px 10px; border-radius:10px 10px 0 0; font-size:13px; } }
 
   /* MAIN PANEL */
   .panel{
     background:var(--sage);
     border-radius:18px;
-    padding:18px;
+    padding:20px;
     display:grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap:18px;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
     box-shadow: inset 0 1px 0 rgba(0,0,0,.06);
   }
   @media (max-width: 900px){ .panel{ grid-template-columns: 1fr; } }
 
-  .frame{ background:#24301f20; border-radius:14px; padding:10px; box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+  .frame{ background:#24301f20; border-radius:14px; padding:12px; box-shadow: 0 2px 0 rgba(0,0,0,.12); }
   .frame{ transition: background .32s ease, color .24s ease; }
   .screen{
     width:100%; aspect-ratio:16 / 9; border-radius:12px; object-fit:cover; display:block; background:#ddd;
     box-shadow: 0 2px 0 rgba(0,0,0,.18);
   }
 
-  /* GRID OF BUTTONS */
-.key {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: space-between;
-overflow: hidden;
-padding: 8px;
-border-radius: 10px;
-text-align: center;
-font-weight: 600;
-height: 100%;
-}
-
-
-.key-img {
-width: 70%;
-max-width: 80px;
-max-height: 60px;
-object-fit: contain;
-flex-shrink: 0;
-display: block;
-margin: 0 auto 6px;
-}
-
-
-.key span {
-font-size: 0.95rem;
-line-height: 1.2;
-}
-
-
-.keys {
-display: grid;
-gap: 12px;
-grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-grid-auto-rows: 120px;
-}
-  /* old stuff*/ 
-  .keys{ display:grid; gap:14px; grid-template-columns: repeat(3, minmax(0,1fr)); }
-  @media (max-width: 420px){ .keys{ grid-template-columns: repeat(2,minmax(0,1fr)); } }
-  .key{
-    background:#d7e0cf; border:2px solid #c7d1bd; border-radius:10px; padding:14px 12px;
-    text-align:center; font-weight:600; box-shadow:0 1px 0 rgba(0,0,0,.08); cursor:pointer;
-    transition: transform .12s ease, background .28s ease, border-color .28s ease, color .2s ease; user-select:none;
+  /* GRID OF BUTTONS: 4×4 layout */
+  .keys {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 120px;
+  }
+  @media (max-width: 900px) { .keys { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 420px) { .keys { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .key {
+    background:#d7e0cf;
+    border:2px solid #c7d1bd;
+    border-radius:10px;
+    padding:14px 12px;
+    text-align:center;
+    font-weight:600;
+    font-size:16px;
+    box-shadow:0 1px 0 rgba(0,0,0,.08);
+    cursor:pointer;
+    transition: transform .12s ease, background .28s ease, border-color .28s ease, color .2s ease;
+    user-select:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
   }
   .key:active{ transform: translateY(1px); }
   .key:hover{ background:#e2e9d9; border-color:#b8c4ad; }
   .key:focus{ outline:3px solid rgba(37,101,45,0.18); outline-offset:2px; }
+  .key.folder{ background:#c7d1bd; border-color:#a8b59a; }
+  .key.folder::before{ content: "📂"; margin-right:8px; display:inline-block; }
+  .key.back{ background:#9fb89b; border-color:#8aa783; font-weight:700; }
+  .key.back::before{ content: "←"; margin-right:8px; display:inline-block; }
 
   /* accessible helper to announce speech status */
   .visually-hidden{ position:absolute !important; height:1px; width:1px; overflow:hidden; clip:rect(1px, 1px, 1px, 1px); white-space:nowrap; }
@@ -164,21 +109,10 @@ grid-auto-rows: 120px;
   /* Footer: same idea */
   .footer-note { display:grid; place-items:center; text-align:center; width:100%; }
 
-  /* BELOW: ABOUT + HOW TO USE
-     Center two fixed-width cards as a pair. Text inside cards remains left-aligned.
-     The .cards wrapper is centered with margin-inline:auto and max-width. On narrow screens the cards stack. */
-  .lower{ margin:34px 0 20px; }
-  .lower .cards{ display:flex; gap:30px; justify-content:center; align-items:flex-start; max-width:980px; margin-inline:auto; }
-  .lower .card{ width:440px; box-sizing:border-box; padding:0 8px; text-align:left; }
   h3{ margin:0 0 10px; font-size:20px; }
-  .lower .card p, .lower .card ul{ color:#1b1b1b; line-height:1.55; max-width:48ch; }
-  @media (max-width: 900px){
-    .lower .cards{ flex-direction:column; gap:100px; align-items:center; }
-    .lower .card{ width:92vw; padding:0; }
-  }
 
   /* FOOTER (centered, two lines) */
-  .footer-note{ text-align:center; margin:24px 0 36px; font-size:14px; line-height:1.4; }
+  .footer-note{ text-align:center; margin:18px 0 28px; font-size:14px; line-height:1.4; }
   .thanks{ display:block; color:var(--sage-900); font-weight:600; }
   .feedback{ display:block; color:var(--sage-900); }
   /* footer link styling */
@@ -220,16 +154,7 @@ grid-auto-rows: 120px;
     <h1>An avatar to build your voice.</h1>
   </section>
 
-  <!-- TABS -->
-  <section class="container tabs" aria-label="Categories">
-    <div class="tabs-list">
-      <button class="tab sage" type="button" data-color-var="--tab-green">Social</button>
-      <button class="tab teal" type="button" data-color-var="--tab-teal">Feelings</button>
-      <button class="tab blue" type="button" data-color-var="--tab-blue">School</button>
-      <button class="tab purple" type="button" data-color-var="--tab-purple">Restaurant</button>
-      <button class="tab rose" type="button" data-color-var="--tab-rose">Family</button>
-    </div>
-  </section>
+
 
   <!-- GREEN PANEL -->
   <section class="container panel" aria-label="Avatar and quick phrases">
@@ -239,13 +164,20 @@ grid-auto-rows: 120px;
       <!-- Or: <img class="screen" src="your-image.jpg" alt="Avatar"> -->
     </div>
 
-<div id="keys-container" class="keys"></div>
+    <div id="keys-container" class="keys"></div>
 
 <div class="sentence-area" style="margin-top:14px;">
   <div id="sentence-field" 
        style="background:#fff;border:2px solid #ccc;border-radius:8px;padding:10px;
               min-height:40px;font-size:16px;">
   </div>
+  <!-- Type area: user-typed message -->
+  <div style="margin-top:8px; display:flex; gap:8px; align-items:center;">
+    <label for="type-input" class="visually-hidden">Type message</label>
+    <input id="type-input" type="text" placeholder="Type message..." style="flex:1; padding:8px 10px; border-radius:6px; border:1px solid #ccc;" />
+    <button id="add-speak" type="button" style="background:#7f8f73;color:white;border:none;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;">Add & Speak</button>
+  </div>
+
   <div style="margin-top:10px;display:flex;gap:10px;">
     <button id="speak-sentence" 
             style="background:#7f8f73;color:white;border:none;padding:10px 16px;
@@ -256,32 +188,16 @@ grid-auto-rows: 120px;
   </div>
 </div>
 
-  </section>
-
-  <!-- LOWER CONTENT -->
-  <section class="container lower">
-    <div class="cards">
-      <div class="card">
-        <h3>About:</h3>
-        <p>
-          This AAC avatar provides a safe space to practice communication. Users can
-          explore common situations, like greetings, school, home, and social interactions,
-          by selecting buttons that let the avatar speak on their behalf. The goal is to
-          build confidence, fluency, and independence in everyday communication.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>How to Use:</h3>
-        <ul>
-          <li>Choose a tab (General, School, Greetings, etc.) to see related phrases.</li>
-          <li>Tap a button to have the avatar speak the word or phrase out loud.</li>
-          <li>Practice repeating the phrase with the avatar for confidence.</li>
-          <li>Switch tabs to explore different everyday situations.</li>
-        </ul>
-      </div>
+    <!-- Finder: search across all vocabulary -->
+    <div class="finder" style="margin:12px 0 8px; display:flex; gap:8px; align-items:center;">
+      <label for="finder-input" style="font-weight:600; font-size:13px;">Finder</label>
+      <input id="finder-input" type="text" placeholder="Search words..." style="flex:1; padding:8px 10px; border-radius:6px; border:1px solid #ccc;" />
+      <button id="finder-search" type="button" style="background:#7f8f73;color:white;border:none;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;">Search</button>
     </div>
+
   </section>
+
+  <!-- LOWER CONTENT removed to simplify UI -->
 
   <!-- FOOTER -->
     <footer class="container footer-note">
@@ -294,17 +210,15 @@ grid-auto-rows: 120px;
 
   <script>
     (function(){
-      // Speak the button label using the Web Speech API (if available).
+      // Speak the button label using the Web Speech API
       const synth = window.speechSynthesis;
       const status = document.getElementById('speech-status');
 
       function speak(text){
         if(!synth){
-          // Fallback: update live region so assistive tech knows something happened
           status.textContent = text;
           return;
         }
-        // cancel any current speech so quick taps interrupt
         try{ synth.cancel(); }catch(e){}
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'en-US';
@@ -315,409 +229,315 @@ grid-auto-rows: 120px;
         synth.speak(u);
       }
 
-      // Make keys play audio for a specific set of labels on click
-      const keys = document.querySelectorAll('.key');
-      const speakKeys = new Set([
-        'yes','time','drinks','people','position','no','questions','places','actions','things','chat','food','me','activities','numbers'
-      ]);
-      keys.forEach(k => {
-        k.addEventListener('click', e => {
-          const text = (k.textContent || k.innerText || '').trim();
-          if(!text) return;
-          // small visual pressed feedback for keyboard users
-          k.setAttribute('aria-pressed', 'true');
-          setTimeout(()=> k.removeAttribute('aria-pressed'), 240);
-          // only play audio for the allowed words (case-insensitive)
-          if(speakKeys.has(text.toLowerCase())){
-            speak(text);
-          }
-        });
-      });
+      // Navigation state
+      let currentPage = 'home';
 
-      // Tabs: toggle active class and set aria-selected (purely visual here)
-      const tabs = document.querySelectorAll('.tabs .tab');
-      tabs.forEach(tab => {
-        tab.setAttribute('role','tab');
-        tab.tabIndex = 0; // make focusable
-        tab.addEventListener('click', ()=> selectTab(tab));
-        tab.addEventListener('keydown', (e)=> { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTab(tab); } });
-      });
+      // Home screen buttons (4×4 grid)
+      const homeScreenButtons = [
+        { label: "I", isFolder: false },
+        { label: "Want", isFolder: false },
+        { label: "Help", isFolder: false },
+        { label: "More", isFolder: false },
+        { label: "Go", isFolder: false },
+        { label: "Stop", isFolder: false },
+        { label: "Look", isFolder: false },
+        { label: "Like", isFolder: false },
+        { label: "Yes", isFolder: false },
+        { label: "No", isFolder: false },
+        { label: "Feelings", isFolder: true },
+        { label: "People", isFolder: true },
+        { label: "Food", isFolder: true },
+        { label: "Play / Toys", isFolder: true },
+        { label: "Places", isFolder: true },
+        { label: "Actions", isFolder: true }
+      ];
 
-      function selectTab(tab){
-        tabs.forEach(t=> t.classList.remove('active'));
-        tab.classList.add('active');
-        // announce selection
-        const name = (tab.textContent||tab.innerText||'').trim();
-        status.textContent = name + ' tab selected';
-        
-        // Apply tab color to keys and screen
-        const colorVar = tab.getAttribute('data-color-var') || '--tab-green';
-        const root = getComputedStyle(document.documentElement);
-        const color = root.getPropertyValue(colorVar).trim() || '#98b38c';
+      // Folder content (each has 15 vocabulary items so Back + 15 = 16 keys)
+      const folderContent = {
+        "Feelings": [
+          "Happy","Sad","Angry","Tired","Excited",
+          "Scared","Worried","Calm","Silly","Frustrated",
+          "Proud","Lonely","Confused","Hurt","Bored"
+        ],
+        "People": [
+          "Me","Mom","Dad","Brother","Sister",
+          "Baby","Friend","Teacher","Class","Nurse",
+          "Doctor","Therapist","Grandma","Grandpa","Pet"
+        ],
+        "Food": [
+          "Eat","Drink","Water","Milk","Juice",
+          "Snack","Breakfast","Lunch","Dinner","Fruit",
+          "Vegetable","Cookie","Pizza","Chips","Candy"
+        ],
+        "Play / Toys": [
+          "Play","Toy","Ball","Book","Music",
+          "Tablet","Game","TV","Phone","Blocks",
+          "Doll","Car","Puzzle","Swing","Slide"
+        ],
+        "Places": [
+          "Home","School","Outside","Bathroom","Kitchen",
+          "Bedroom","Classroom","Playground","Store","Restaurant",
+          "Car","Bus","Park","Doctor","Grandma house"
+        ],
+        "Actions": [
+          "Want","Need","Help","Go","Stop",
+          "Look","Come","Turn","Open","Close",
+          "Sit","Stand","Wait","Talk","Read"
+        ]
+      };
 
-  // set key backgrounds and borders
-        const keysEls = document.querySelectorAll('.key');
-        // compute a darker border color by reducing lightness via a quick HSL conversion
-        function hexToRgb(h){
-          const v = h.replace('#','');
-          const bigint = parseInt(v,16);
-          return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
-        }
-  function rgbToHex(r,g,b){ return '#'+[r,g,b].map(x=> x.toString(16).padStart(2,'0')).join(''); }
-  function darker(col,amt){ try{ const [r,g,b]=hexToRgb(col); return rgbToHex(Math.max(0,r-amt),Math.max(0,g-amt),Math.max(0,b-amt)); }catch(e){ return col; } }
-  function lighter(col,amt){ try{ const [r,g,b]=hexToRgb(col); return rgbToHex(Math.min(255,r+amt),Math.min(255,g+amt),Math.min(255,b+amt)); }catch(e){ return col; } }
+      // DOM elements
+      const keysContainer = document.getElementById('keys-container');
+      const sentenceField = document.getElementById('sentence-field');
+      const speakSentenceBtn = document.getElementById('speak-sentence');
+      const clearSentenceBtn = document.getElementById('clear-sentence');
+      const finderInput = document.getElementById('finder-input');
+      const finderSearchBtn = document.getElementById('finder-search');
+      const typeInput = document.getElementById('type-input');
+      const addSpeakBtn = document.getElementById('add-speak');
 
-        const borderColor = darker(color,18);
-        // decide text color based on perceived brightness
-        function luminance([r,g,b]){ return 0.299*r + 0.587*g + 0.114*b; }
-        const textColor = (luminance(hexToRgb(color)) > 150) ? '#0e0e0e' : '#ffffff';
-
-        // use a slightly lighter version of the tab color for the small buttons
-        const keyBg = lighter(color,30);
-        keysEls.forEach(k=>{
-          k.style.background = keyBg;
-          k.style.borderColor = borderColor;
-          k.style.color = textColor;
-        });
-
-        // set the screen background tint to a slightly transparent version
-        const screen = document.querySelector('.screen');
-        if(screen){
-          screen.style.background = color;
-          screen.style.color = textColor;
-        }
-
-        // tint the frame so the buttons inside feel like part of the color
-        const frame = document.querySelector('.frame');
-        try{
-          const rgb = hexToRgb(color);
-          if(frame && rgb && rgb.length===3){
-            frame.style.background = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.10)`;
-            frame.style.color = textColor;
-          }
-        }catch(e){}
-
-        // change the panel (the box that contains video + buttons) to a slightly darker version
-        try{
-          const panel = document.querySelector('.panel');
-          if(panel){
-            const panelColor = darker(color, 36); // darker by a noticeable amount
-            panel.style.background = panelColor;
-            // adjust panel text for contrast
-            const panelText = (luminance(hexToRgb(panelColor)) > 150) ? '#0e0e0e' : '#ffffff';
-            panel.style.color = panelText;
-          }
-        }catch(e){ /* ignore */ }
-
-        // update the decorative arc to match (more vibrant/translucent)
-        try{
-          const arc = document.querySelector('.arc-bg');
-          const rgb2 = hexToRgb(color);
-          if(arc && rgb2 && rgb2.length===3){
-            arc.style.background = `rgba(${rgb2[0]}, ${rgb2[1]}, ${rgb2[2]}, 0.26)`; // stronger tint
-            arc.style.boxShadow = `0 -10px 60px rgba(${rgb2[0]}, ${rgb2[1]}, ${rgb2[2]}, 0.08)`;
-          }
-        }catch(e){}
+      // --- Add word to sentence ---
+      function addToSentence(word) {
+        sentenceField.textContent += (sentenceField.textContent ? ' ' : '') + word;
       }
 
-    // --- Tab → Word mappings ---
-const tabWords = {
-  "Social": ["Hi", "Bye", "Thank you", "Please", "Good job", "Sorry"],
-  "Feelings": ["Happy", "Sad", "Angry", "Tired", "Excited", "Scared"],
-  "School": ["Teacher", "Class", "Book", "Homework", "Help", "Recess"],
-  "Restaurant": ["Eat", "Drink", "Menu", "Water", "Burger", "Bill"],
-  "Family": ["Mom", "Dad", "Brother", "Sister", "Home", "Love"]
-};
+      // --- Render home screen (4×4) ---
+      function renderHome() {
+        currentPage = 'home';
+        keysContainer.innerHTML = '';
+        // ensure 4x4 grid
+        keysContainer.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
+        homeScreenButtons.forEach(buttonConfig => {
+          const btn = document.createElement('button');
+          btn.className = 'key';
+          if (buttonConfig.isFolder) {
+            btn.classList.add('folder');
+          }
+          btn.textContent = buttonConfig.label;
+          btn.setAttribute('type', 'button');
 
-// --- Elements ---
-const keysContainer = document.getElementById('keys-container');
-const sentenceField = document.getElementById('sentence-field');
-const speakSentenceBtn = document.getElementById('speak-sentence');
-const clearSentenceBtn = document.getElementById('clear-sentence');
+          btn.addEventListener('click', () => {
+            if (buttonConfig.isFolder) {
+              openFolder(buttonConfig.label);
+            } else {
+              addToSentence(buttonConfig.label);
+              speak(buttonConfig.label);
+            }
+          });
 
-// --- Populate keys based on tab ---
-function populateKeys(tabName) {
-  keysContainer.innerHTML = '';
-  const words = tabWords[tabName] || [];
-  words.forEach(word => {
-    const btn = document.createElement('button');
-    btn.className = 'key';
-    //btn.textContent = word;
-    btn.innerHTML = `<img src="icons/${word.toLowerCase()}.png" alt="${word}" class="key-img"><span>${word}</span>`;
-    const img = btn.querySelector("img");
-    img.onerror = () => { img.style.display = "none"; };
+          btn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              btn.click();
+            }
+          });
 
-    btn.addEventListener('click', () => {
-      addToSentence(word);
-    });
-    keysContainer.appendChild(btn);
-  });
-}
+          keysContainer.appendChild(btn);
+        });
+      }
 
-// --- Build sentence ---
-function addToSentence(word) {
-  sentenceField.textContent += (sentenceField.textContent ? ' ' : '') + word;
-}
+      // --- Open folder page ---
+      function openFolder(folderName) {
+        currentPage = folderName;
+        keysContainer.innerHTML = '';
+        // enforce 4x4 layout for folder pages
+        keysContainer.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
+        const words = folderContent[folderName] || [];
 
-// --- Speak full sentence ---
-/*speakSentenceBtn.addEventListener('click', () => {
-  const text = sentenceField.textContent.trim();
-  if (!text) return;
-  speak(text);
-  queryGemini(text); 
-}); */
-speakSentenceBtn.addEventListener('click', async () => {
-  const text = sentenceField.textContent.trim();
-  if (!text) return;
+        // Add Back button
+        const backBtn = document.createElement('button');
+        backBtn.className = 'key back';
+        backBtn.textContent = '← Back';
+        backBtn.setAttribute('type', 'button');
+        backBtn.addEventListener('click', () => {
+          renderHome();
+        });
+        backBtn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            backBtn.click();
+          }
+        });
+        keysContainer.appendChild(backBtn);
 
-  // Send to Gemini and speak
-  speak(text);
-  await queryGemini(text);
+        // Add folder words
+        words.forEach(word => {
+          const btn = document.createElement('button');
+          btn.className = 'key';
+          btn.textContent = word;
+          btn.setAttribute('type', 'button');
 
-  // Automatically clear after speaking
-  sentenceField.textContent = "";
-});
+          btn.addEventListener('click', () => {
+            addToSentence(word);
+            speak(word);
+          });
 
-// --- Clear sentence ---
-clearSentenceBtn.addEventListener('click', () => {
-  sentenceField.textContent = '';
-});
+          btn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              btn.click();
+            }
+          });
 
-// Load default tab on startup
-populateKeys("Social");
+          keysContainer.appendChild(btn);
+        });
+      }
 
-// Update selectTab to change words too:
-const originalSelectTab = selectTab;
-selectTab = function(tab){
-  originalSelectTab(tab);
-  const name = (tab.textContent||tab.innerText||'').trim();
-  populateKeys(name);
-};
-//new?
+      // --- Render search results (flat) ---
+      function renderSearchResults(query) {
+        const q = (query || '').trim().toLowerCase();
+        keysContainer.innerHTML = '';
+        keysContainer.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
 
-/* async function queryGemini(sentence) {
-  try {
-    const res = await fetch("http://127.0.0.1:5000/api/gemini", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: sentence }),
-    });
-    const data = await res.json();
+        // Back button returns to previous page
+        const backBtn = document.createElement('button');
+        backBtn.className = 'key back';
+        backBtn.textContent = '← Back';
+        backBtn.setAttribute('type', 'button');
+        backBtn.addEventListener('click', () => {
+          if (currentPage === 'home') renderHome(); else openFolder(currentPage);
+        });
+        backBtn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); backBtn.click(); }
+        });
+        keysContainer.appendChild(backBtn);
 
-    // Display Gemini's reply inside the video box
-    const screen = document.querySelector(".screen");
-    if (screen) {
-      screen.innerHTML = `<div style="padding:15px; color:white; font-size:18px;">
-        ${data.reply}
-      </div>`;
-    }
-  } catch (err) {
-    console.error("Gemini error:", err);
-  }
-}
-*/
-//newer
-/*
-async function queryGemini(sentence) {
-  const res = await fetch("http://127.0.0.1:5000/api/gemini", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: sentence }),
-  });
-  const data = await res.json();
+        if (!q) {
+          // if empty query, show home (just return)
+          return;
+        }
 
-  // Replace the video content with Gemini’s text
-  const screen = document.getElementById("screen-box");
-  screen.outerHTML = `
-    <div id="screen-box" class="screen" style="
-      background-color: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      color: white;
-      padding: 20px;
-      font-size: 18px;
-      text-align: center;
-    ">
-      ${data.reply}
-    </div>`;
-}
-*/
-//newest
-/*
-async function queryGemini(sentence) {
-  const res = await fetch("http://127.0.0.1:5000/api/gemini", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: sentence }),
-  });
-  const data = await res.json();
+        // collect matches from home labels and folder words
+        const matches = [];
+        homeScreenButtons.forEach(b => {
+          if (b.label.toLowerCase().includes(q)) matches.push(b.label);
+        });
+        Object.keys(folderContent).forEach(folder => {
+          folderContent[folder].forEach(word => {
+            if (word.toLowerCase().includes(q)) matches.push(word);
+          });
+        });
 
-  // hide the video and show text instead
-  const screen = document.getElementById("screen-box");
-  screen.style.display = "none";
+        if (matches.length === 0) {
+          const noKey = document.createElement('div');
+          noKey.className = 'key';
+          noKey.textContent = 'No matches';
+          noKey.setAttribute('role', 'note');
+          noKey.style.opacity = '0.6';
+          keysContainer.appendChild(noKey);
+          return;
+        }
 
-  // create a new text overlay div
-  let textBox = document.getElementById("gemini-output");
-  if (!textBox) {
-    textBox = document.createElement("div");
-    textBox.id = "gemini-output";
-    screen.parentElement.appendChild(textBox);
-  }
+        matches.forEach(m => {
+          const btn = document.createElement('button');
+          btn.className = 'key';
+          btn.textContent = m;
+          btn.setAttribute('type', 'button');
+          btn.addEventListener('click', () => { addToSentence(m); speak(m); });
+          btn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); } });
+          keysContainer.appendChild(btn);
+        });
+      }
 
-  textBox.innerHTML = data.reply;
-  textBox.style.cssText = `
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    border-radius: 12px;
-    padding: 20px;
-    font-size: 18px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-  `;
-}
-*/
-/*
-async function queryGemini(sentence) {
-  try {
-    const res = await fetch("http://127.0.0.1:5000/api/gemini", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: sentence }),
-    });
+      // --- Finder wiring ---
+      finderSearchBtn.addEventListener('click', () => {
+        renderSearchResults(finderInput.value || '');
+      });
+      finderInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          renderSearchResults(finderInput.value || '');
+        }
+      });
 
-    const data = await res.json();
-    const reply = data.reply || "No response from Gemini.";
+      // --- Type (Add & Speak) wiring ---
+      function handleAddSpeak() {
+        const text = (typeInput.value || '').trim();
+        if (!text) return;
+        addToSentence(text);
+        speak(text);
+        typeInput.value = '';
+        typeInput.focus();
+      }
+      addSpeakBtn.addEventListener('click', handleAddSpeak);
+      typeInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddSpeak(); } });
 
-    // --- Print response in console ---
-    console.log("Gemini reply:", reply);
-    //newer additions
-    window.speechSynthesis.cancel(); // stop any previous voice
-const utterance = new SpeechSynthesisUtterance(reply);
-utterance.lang = "en-US";
-utterance.rate = 1;
-utterance.pitch = 1;
-utterance.onstart = () => console.log("Speaking...");
-utterance.onend = () => console.log("Done speaking.");
-speechSynthesis.speak(utterance);
+      // --- Speak full sentence ---
+      speakSentenceBtn.addEventListener('click', async () => {
+        const text = sentenceField.textContent.trim();
+        if (!text) return;
+        speak(text);
+        await queryGemini(text);
+        sentenceField.textContent = "";
+      });
 
-    // --- Display it inside the video/text box ---
-    const screen = document.getElementById("screen-box");
-    screen.style.display = "none"; // hide video
+      // --- Clear sentence ---
+      clearSentenceBtn.addEventListener('click', () => {
+        sentenceField.textContent = '';
+      });
 
-    let textBox = document.getElementById("gemini-output");
-    if (!textBox) {
-      textBox = document.createElement("div");
-      textBox.id = "gemini-output";
-      screen.parentElement.appendChild(textBox);
-    }
+      // --- queryGemini: Send sentence to Gemini API ---
+      async function queryGemini(sentence) {
+        try {
+          const res = await fetch("http://127.0.0.1:5000/api/gemini", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: sentence }),
+          });
 
-    textBox.innerHTML = reply;
-    textBox.style.cssText = `
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      border-radius: 12px;
-      padding: 20px;
-      font-size: 18px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-    `;
+          const data = await res.json();
+          const reply = data.reply || "No response from Gemini.";
+          console.log("Gemini reply:", reply);
 
-    // --- Speak the Gemini reply aloud ---
-    const synth = window.speechSynthesis;
-    if (synth) {
-      const utterance = new SpeechSynthesisUtterance(reply);
-      utterance.lang = "en-US";
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-      synth.cancel();  // stop any prior speech
-      synth.speak(utterance);
-    }
+          // Speak the reply
+          const synth = window.speechSynthesis;
+          if (synth) {
+            const utter = new SpeechSynthesisUtterance(reply);
+            utter.lang = "en-US";
+            utter.rate = 1;
+            synth.cancel();
+            synth.speak(utter);
+          }
 
-  } catch (error) {
-    console.error("Gemini API error:", error);
-  }
-}
-*/
-async function queryGemini(sentence) {
-  try {
-    const res = await fetch("http://127.0.0.1:5000/api/gemini", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: sentence }),
-    });
+          // Display in frame
+          const frame = document.querySelector(".frame");
+          const screen = document.getElementById("screen-box");
+          screen.style.display = "none";
 
-    const data = await res.json();
-    const reply = data.reply || "No response from Gemini.";
+          let textBox = document.getElementById("gemini-output");
+          if (!textBox) {
+            textBox = document.createElement("div");
+            textBox.id = "gemini-output";
+            frame.appendChild(textBox);
+          }
 
-    console.log("Gemini reply:", reply);
+          textBox.innerHTML = reply;
+          textBox.style.cssText = `
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+            overflow-y: auto;
+          `;
+        } catch (error) {
+          console.error("Gemini API error:", error);
+        }
+      }
 
-    // Speak the Gemini reply aloud
-    const synth = window.speechSynthesis;
-    if (synth) {
-      const utter = new SpeechSynthesisUtterance(reply);
-      utter.lang = "en-US";
-      utter.rate = 1;
-      synth.cancel();
-      synth.speak(utter);
-    }
 
-    // --- Display Gemini output *only inside* the video area ---
-    const frame = document.querySelector(".frame");
-    const screen = document.getElementById("screen-box");
-
-    // Hide the video but keep the frame size fixed
-    screen.style.display = "none";
-
-    // Create or update a text box confined to the frame
-    let textBox = document.getElementById("gemini-output");
-    if (!textBox) {
-      textBox = document.createElement("div");
-      textBox.id = "gemini-output";
-      frame.appendChild(textBox);
-    }
-
-    textBox.innerHTML = reply;
-    textBox.style.cssText = `
-      width: 100%;
-      aspect-ratio: 16/9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background-color: rgba(0,0,0,0.7);
-      color: white;
-      font-size: 18px;
-      padding: 20px;
-      border-radius: 12px;
-      position: relative;   /* stays within frame */
-      overflow-y: auto;
-    `;
-
-  } catch (error) {
-    console.error("Gemini API error:", error);
-  }
-}
-
+      // Initialize home screen
+      renderHome();
 
     })();
   </script>
-</script>
 
 <div class="arc-bg" aria-hidden="true"></div>
 
